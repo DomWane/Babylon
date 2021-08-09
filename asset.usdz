@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang='en' class=''>
+
+<head>
+
+  <meta charset='UTF-8'>
+  <title>CodePen Demo</title>
+
+  <meta name="robots" content="noindex">
+
+  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  <link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+  <link rel="canonical" href="https://codepen.io/pen/">
+
+  
+  
+
+  <style class="INLINE_PEN_STYLESHEET_ID">
+    
+			body {
+				background-color: #eee;
+			}
+			#info {
+				color: #222;
+			}
+			a {
+				color: #00f
+			}
+			#button {
+				position: absolute;
+				bottom: 15px;
+				left: calc(50% - 40px);
+
+			}
+  </style>
+
+  
+<script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeConsoleRunner-d8236034cc3508e70b0763f2575a8bb5850f9aea541206ce56704c013047d712.js"></script>
+<script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script>
+<script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRuntimeErrors-4f205f2c14e769b448bcf477de2938c681660d5038bc464e3700256713ebe261.js"></script>
+</head>
+
+<body>
+  <head>
+		<a id="link" rel="ar" href="" download="asset.usdz">
+			<img id="button" width="100" src="files/arkit.png">
+	</head>
+	<body>
+
+		<script type="module">
+      import { USDZExporter } from 'https://cdn.jsdelivr.net/npm/three@0.131.1/examples/jsm/exporters/USDZExporter.js';
+			import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.131.1/build/three.module.js';
+
+			let camera, scene, renderer;
+			let mesh;
+
+			init();
+      
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+				camera.position.z = 400;
+
+				scene = new THREE.Scene();
+
+				const texture = new THREE.TextureLoader().load( 'https://raw.githubusercontent.com/DomWane/Babylon/main/Vinyl_texture.jpg' );
+
+				const geometry = new THREE.PlaneGeometry( 200, 200 );
+				const material = new THREE.MeshBasicMaterial( { map: texture } );
+
+				mesh = new THREE.Mesh( geometry, material );
+				scene.add( mesh );
+        
+        					const exporter = new USDZExporter();
+					const arraybuffer = await exporter.parse( gltf.scene );
+					const blob = new Blob( [ arraybuffer ], { type: 'application/octet-stream' } );
+
+					const link = document.getElementById( 'link' );
+					link.href = URL.createObjectURL( blob );
+        
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+        	
+        //
+
+				window.addEventListener( 'resize', onWindowResize );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+        
+renderer.render(scene, camera)        
+        
+			}
+
+
+
+		</script>
+
+	</body>
+
+  
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-8216c69d01441f36c0ea791ae2d4469f0f8ff5326f00ae2d00e4bb7d20e24edb.js"></script>
+  <script  src="https://cdpn.io/cp/internal/boomboom/pen.js?key=pen.js-da8aa3fb-a716-8fed-483e-8a735f78dae2" crossorigin></script>
+</body>
+
+</html>
